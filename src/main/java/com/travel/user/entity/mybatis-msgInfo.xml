@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="com.travel.user.dao.MsgInfoDao">
+	<resultMap id="BaseResultMap" type="com.travel.user.entity.MsgInfo">
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+		<result column="id" property="id" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		name, phone, email
+	</sql>
+	<!-- 分页查询 -->
+	<select id="queryAll" resultType="java.util.Map">
+	SELECT * FROM msgInfo LIMIT #{page},#{rows}
+	</select>
+	<!-- 查询数据总量-->
+	<select id="queryCount" resultType="int">
+		SELECT COUNT(*) FROM msgInfo
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+	SELECT * FROM msgInfo LIMIT #{page},#{rows}
+	</select>
+	<!-- 数据插入 -->
+	<insert id="insertMsg" parameterType="com.travel.user.entity.MsgInfo">  
+     INSERT INTO msgInfo (name,phone,email) VALUES (#{name}, #{phone}, #{email})  
+	</insert> 
+	<!-- 数据更新 -->
+	<update id="updateMsg" parameterType="com.travel.user.entity.MsgInfo">
+	        update msgInfo
+	        <set> name=#{name},phone=#{phone},email=#{email}</set>
+	        where id=#{id}
+	</update>
+	<!-- 根据ID查询数据 -->
+	<select id="queryById" parameterType="int" resultType="com.travel.user.entity.MsgInfo">
+		SELECT * FROM msgInfo where id=#{id}
+	</select>
+	<!-- 根据ID删除数据 -->
+      <delete id="deleteById" parameterType="int">
+          delete from msgInfo where id=#{id}
+      </delete>
+</mapper> 
