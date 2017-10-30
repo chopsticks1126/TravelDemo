@@ -25,8 +25,13 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 	@Autowired
 	private MsgInfoDao<MsgInfo> msgdao;
 	JSONObject jsonObject =new JSONObject();
+	
+	public List<MsgInfo> selectAll(){
+		List<MsgInfo> msgInfoListByPage =msgdao.queryAll();
+		return msgInfoListByPage;
+	}
 	/**
-	 * 分页查询所有的
+	 * 分页查询所有的(暂且没有用到)
 	 * @param page	
 	 * @param rows	
 	 * @return		
@@ -34,8 +39,7 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 	public Map<String, Object> selectByPage(String page,String rows){
 		
 		Map<String, Object> map =byPage(page, rows);//分页查询封装的参数
-		List<MsgInfo> msgInfoListByPage =msgdao.queryAll(map);
-		
+		List<MsgInfo> msgInfoListByPage =msgdao.queryAll();
 		int total = queryCount();// 
 		Map<String, Object> mapObject = new HashMap<String, Object>();//
 		mapObject.put("rows", msgInfoListByPage);
@@ -43,7 +47,7 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 		return mapObject;
 	}
 	/**
-	 * 
+	 * 查询所有的总数
 	 */
 	public int queryCount() {
 		int countNum = msgdao.queryCount();
@@ -58,7 +62,7 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 		return jsonObject;
 	}
 	/**
-	 * 鎻掑叆鍗曟潯鏁版嵁
+	 * 添加数据
 	 */
 	public JSONObject insertMsg(MsgInfoModel msgInfo) {
 		MsgInfo msgInfoNew= new MsgInfo();
@@ -71,7 +75,7 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 		return jsonObject;
 	}
 	/**
-	 * 鏇存柊鏁版嵁
+	 * 更新数据
 	 */
 	public JSONObject updateMsg(MsgInfoModel msgInfo) {
 		List<MsgInfo> msgList =msgdao.queryById(msgInfo.getId());
@@ -88,14 +92,14 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 		return jsonObject;
 	}
 	/**
-	 * 鏍规嵁ID鏌ヨ鏁版嵁
+	 * 根据ID查询数据
 	 */
 	public List<MsgInfo> queryById(int id) {
 		List<MsgInfo> msgInfo = msgdao.queryById(id);
 		return msgInfo;
 	}
 	/**
-	 * 
+	 * 根据ID 删除数据
 	 * @param id
 	 * @return
 	 */

@@ -42,7 +42,7 @@ public class ShowMsgDate {
 	}
 	*/
 	/**
-	 * 
+	 * 查询所有（暂且没有用）
 	 * @param request
 	 * @param response
 	 * @return
@@ -58,7 +58,7 @@ public class ShowMsgDate {
 	}
 	
 	/**
-	 * 根据条件查询
+	 * 根据(条件)查询所有
 	 * @param request
 	 * @param response
 	 * @return
@@ -70,7 +70,6 @@ public class ShowMsgDate {
 		String rows = request.getParameter("rows");
 		String typeSearch = request.getParameter("typeSearch");
 		String content = request.getParameter("inputContent");
-		content ="'%"+content+"%'";
 		Map<String, Object> mapObject = msgInfoService.selectByConditional(page, rows, typeSearch, content);
 		JSONObject jsonObject = JSONObject.fromObject(mapObject);
 		return jsonObject;

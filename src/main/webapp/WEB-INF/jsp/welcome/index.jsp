@@ -17,7 +17,7 @@
 </head>
 <body>
     <table id="dg" title="My msgInfo" class="easyui-datagrid" style="width:700px;height:250px"
-            url="../ShowMsgDate/showMsgInfoDate.do"
+            url="../ShowMsgDate/showMsgByConditional.do"
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true" >
         <thead>
@@ -69,33 +69,23 @@
 <!-- 	<div id="dd" class="easyui-droppable" data-options="accept:'#d1,#d3'" -->
 <!-- 		style="width: 100px; height: 100px;border: 1px solid red;"></div> -->
 	<script type="text/javascript">
+	$("a[class='l-btn']").click(function(){
+		alert("点击事件");
+	});
+// 	$(".l-btn").bind('click',function(){
+		
+// 	});
 	function search(){
 		var typeSearch = $("#selectDown_01").val();
 		var inputContent = $("#ss").val();
-		alert(inputContent+"~~~~~~~"+typeSearch);
-		var url ="../ShowMsgDate/showMsgByConditional.do";
-		$.ajax({
-            type:"POST",
-	    	url:url,
-	    	dataType:"json",
-	    	async: false,
-            data: {"typeSearch":typeSearch,"inputContent":inputContent},
-            success: function(data){
-            	alert(data);
-//                 if ('success' == data){
-//                     alert(1);
-//                 }
-//                  else {
-//                     alert('注册失败');
-//                 }
-
-            }
-        })
+		$('#dg').datagrid('options').url ="../ShowMsgDate/showMsgByConditional.do?typeSearch="+typeSearch+"&inputContent="+inputContent;
+		$('#dg').datagrid('reload');
+		$("#selectDown_01").val("");
+		$("#ss").val("");
 	}
 	$("#mm").menu({
 		onClick:function(item){
 			$("#selectDown_01").val(item.text);
-			alert(item.text);
 		}
 	});
 // 		var m = $('#ss').searchbox('menu'); // 获取菜单项var item = m.menu('findItem', 'Sports News');     // 查找菜单项
@@ -209,6 +199,11 @@
 				}
 			});
 		}
+		$('.datagrid-pager').pagination('refresh',{	// 改变选项并刷新分页栏信息
+			total: 1,
+			pageNumber: 10
+		});
+// 		$('.datagrid-pager').click(re());
 	</script>
 </body>
 </html>

@@ -18,7 +18,7 @@ public interface MsgInfoDao<MsgDao>{
 	 * @param map
 	 * @return
 	 */
-	List<MsgInfo> queryAll(Map<String, Object> map);
+	List<MsgInfo> queryAll();
 	/**
 	 * 添加插入数据
 	 * @param msgInfo
