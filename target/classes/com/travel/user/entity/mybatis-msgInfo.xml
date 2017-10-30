@@ -14,9 +14,17 @@
 	<select id="queryAll" resultType="java.util.Map">
 	SELECT * FROM msgInfo LIMIT #{page},#{rows}
 	</select>
+	<!-- 根据条件分页查询 -->
+	<select id="queryByConditional" resultType="java.util.Map">
+	SELECT * FROM msgInfo where #{type} = #{content} LIMIT #{page},#{rows} 
+	</select>
+	<!-- 根据条件查询数据总量-->
+	<select id="queryCountConditional" resultType="int">
+	SELECT COUNT(1) FROM msgInfo where #{type} like #{content} 
+	</select>
 	<!-- 查询数据总量-->
 	<select id="queryCount" resultType="int">
-		SELECT COUNT(*) FROM msgInfo
+		SELECT COUNT(1) FROM msgInfo
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
 	SELECT * FROM msgInfo LIMIT #{page},#{rows}

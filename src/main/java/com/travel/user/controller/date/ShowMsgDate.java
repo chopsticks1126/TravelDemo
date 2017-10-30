@@ -41,6 +41,12 @@ public class ShowMsgDate {
 		}
 	}
 	*/
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/showMsgInfoDate.do",produces="application/json;charset=UTF-8") 
 	public JSONObject showMsgInfoDate(HttpServletRequest request, HttpServletResponse response) {
@@ -50,5 +56,23 @@ public class ShowMsgDate {
 		jsonObject = JSONObject.fromObject(mapObject);
 		return jsonObject;
 	}
+	
+	/**
+	 * 根据条件查询
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/showMsgByConditional.do", produces = "application/json;charset=UTF-8")
+	public JSONObject showMsgByConditional(HttpServletRequest request, HttpServletResponse response) {
+		String page = request.getParameter("page");
+		String rows = request.getParameter("rows");
+		String typeSearch = request.getParameter("typeSearch");
+		String content = request.getParameter("inputContent");
+		content ="'%"+content+"%'";
+		Map<String, Object> mapObject = msgInfoService.selectByConditional(page, rows, typeSearch, content);
+		JSONObject jsonObject = JSONObject.fromObject(mapObject);
+		return jsonObject;
+	}
 }
-

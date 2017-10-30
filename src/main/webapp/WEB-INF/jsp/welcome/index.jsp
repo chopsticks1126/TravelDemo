@@ -33,10 +33,10 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">清除</a>
 	 	<!-- 搜索-->	
-	 	<input id="ss" class="easyui-searchbox" style="width:300px" data-options="searcher:qq,prompt:'请输入查询条件',menu:'#mm'"></input> 
+	 	<input id="ss" class="easyui-searchbox" style="width:300px" data-options="searcher:search,prompt:'请输入查询条件',menu:'#mm'"></input> 
 		<div id="mm" style="width:120px"> 
-			<div data-options="name:'phone',iconCls:'icon-ok'">phone</div> 
-			<div data-options="name:'email'">email</div> 
+			<div data-options="name:'phone',iconCls:'icon-ok'" data-value ="phone">phone</div> 
+			<div data-options="name:'email'" data-value ="email">email</div> 
 			<input type="hidden" id="selectDown_01" name="selectDown_01"/>
 		</div> 
     </div>
@@ -69,18 +69,33 @@
 <!-- 	<div id="dd" class="easyui-droppable" data-options="accept:'#d1,#d3'" -->
 <!-- 		style="width: 100px; height: 100px;border: 1px solid red;"></div> -->
 	<script type="text/javascript">
-	function qq(){
-		alert(1);
+	function search(){
+		var typeSearch = $("#selectDown_01").val();
+		var inputContent = $("#ss").val();
+		alert(inputContent+"~~~~~~~"+typeSearch);
+		var url ="../ShowMsgDate/showMsgByConditional.do";
+		$.ajax({
+            type:"POST",
+	    	url:url,
+	    	dataType:"json",
+	    	async: false,
+            data: {"typeSearch":typeSearch,"inputContent":inputContent},
+            success: function(data){
+            	alert(data);
+//                 if ('success' == data){
+//                     alert(1);
+//                 }
+//                  else {
+//                     alert('注册失败');
+//                 }
+
+            }
+        })
 	}
-// 	function selectOption(item){
-// 		alert(item.name);
-// 		$("#selectDown_01").val(item.name);
-// 	}
 	$("#mm").menu({
 		onClick:function(item){
-// 			alert(item);
-			alert($(this).attr("data-options","iconCls:'icon-ok'"));
 			$("#selectDown_01").val(item.text);
+			alert(item.text);
 		}
 	});
 // 		var m = $('#ss').searchbox('menu'); // 获取菜单项var item = m.menu('findItem', 'Sports News');     // 查找菜单项

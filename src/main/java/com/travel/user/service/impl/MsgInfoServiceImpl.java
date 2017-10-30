@@ -26,28 +26,14 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 	private MsgInfoDao<MsgInfo> msgdao;
 	JSONObject jsonObject =new JSONObject();
 	/**
-	 * 
+	 * 分页查询所有的
 	 * @param page	
 	 * @param rows	
 	 * @return		
 	 */
 	public Map<String, Object> selectByPage(String page,String rows){
-		int pageNum = 0;// 
-		int pageSizeNum = 0;// 
-		if (page != null && !page.equals("")) {
-			pageNum = Integer.parseInt(page);
-		} else {
-			pageNum = 1;
-		}
-		if (rows != null && !rows.equals("")) {
-			pageSizeNum = Integer.parseInt(rows);
-		} else {
-			pageSizeNum = 10;// 
-		}
-		//鍒嗛〉鏌ヨ
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("page",(pageNum-1)*pageSizeNum);	//
-		map.put("rows",pageSizeNum);			//
+		
+		Map<String, Object> map =byPage(page, rows);//分页查询封装的参数
 		List<MsgInfo> msgInfoListByPage =msgdao.queryAll(map);
 		
 		int total = queryCount();// 
@@ -137,6 +123,45 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 			map.put("fail","0");
 		}
 		return map;
+	}
+	
+	/**
+	 *  将页码和每页显示的条数封装成一个map
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	public Map<String, Object> byPage(String page,String rows){
+		int pageNum = 0;// 
+		int pageSizeNum = 0;// 
+		if (page != null && !page.equals("")) {
+			pageNum = Integer.parseInt(page);
+		} else {
+			pageNum = 1;
+		}
+		if (rows != null && !rows.equals("")) {
+			pageSizeNum = Integer.parseInt(rows);
+		} else {
+			pageSizeNum = 10;// 
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page",(pageNum-1)*pageSizeNum);	//
+		map.put("rows",pageSizeNum);			//
+		return map;
+	}
+	/**
+	 * 根据条件分页查询
+	 */
+	public Map<String, Object> selectByConditional(String page, String rows, String typeSearch, String content) {
+		Map<String, Object> map =byPage(page, rows);
+		map.put("type",typeSearch);
+		map.put("content",content);
+		List<MsgInfo> msgInfoListByPage =msgdao.queryByConditional(map);
+		int countNum = msgdao.queryCountConditional(map);
+		Map<String, Object> mapObject = new HashMap<String, Object>();//
+		mapObject.put("rows", msgInfoListByPage);
+		mapObject.put("total", countNum);
+		return mapObject;
 	}
 }
 

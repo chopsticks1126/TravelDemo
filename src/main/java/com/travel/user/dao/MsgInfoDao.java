@@ -9,36 +9,48 @@ import com.travel.user.entity.MsgInfo;
 @Repository
 public interface MsgInfoDao<MsgDao>{
 	/**
-	 * 鏌ヨ鎬绘暟
+	 * 查询总数
 	 * @return
 	 */
 	int queryCount();
 	/**
-	 * 鍒嗛〉鏌ヨ
+	 * 查询所有
 	 * @param map
 	 * @return
 	 */
-	List<MsgInfo> queryAll(Map<String, Integer> map);
+	List<MsgInfo> queryAll(Map<String, Object> map);
 	/**
-	 * 鎻掑叆鍗曟潯鏁版嵁
+	 * 添加插入数据
 	 * @param msgInfo
 	 */
 	int insertMsg(MsgInfo msgInfo);
 	/**
-	 * 鏇存柊鍗曟潯鏁版嵁
+	 * 更新数据
 	 * @return
 	 */
 	int updateMsg(MsgInfo msgInfo);
 	/**
-	 * 鏍规嵁ID鏌ヨ鏁版嵁
+	 * 根据ID查询
 	 * @param id
 	 * @return
 	 */
 	List<MsgInfo> queryById(int id);
 	/**
-	 * 鏍规嵁ID鍒犻櫎瀵硅薄
+	 * 根据ID删除
 	 * @param id
 	 * @return
 	 */
 	int deleteById(int id);
+	/**
+	 * 根据条件筛选信息
+	 * @param map
+	 * @return
+	 */
+	List<MsgInfo> queryByConditional(Map<String, Object> map);
+	/**
+	 * 根据条件筛选信息总量
+	 * @param map
+	 * @return
+	 */
+	int queryCountConditional(Map<String, Object> map);
 }
