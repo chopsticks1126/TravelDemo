@@ -21,8 +21,8 @@
 	</sql> 
 	
 	<!-- 查询所有数据 -->
-	<select id="queryAll" resultType="java.util.List">
-	SELECT * FROM msgInfo 
+	<select id="queryAll" resultType="com.travel.user.entity.MsgInfo">
+		SELECT * FROM msgInfo
 	</select>
 	
 	<!-- 根据条件分页查询 -->

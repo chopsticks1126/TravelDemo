@@ -15,4 +15,5 @@ public interface MsgInfoService {
 	JSONObject updateMsg(MsgInfoModel msgInfo);
 	List<MsgInfo> queryById(int id);
 	Map<String, Object> selectByConditional(String page,String rows,String typeSearch,String content); 
+	List<MsgInfo> selectAll();
 }

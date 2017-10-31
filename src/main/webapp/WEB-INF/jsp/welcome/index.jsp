@@ -17,7 +17,7 @@
 </head>
 <body>
     <table id="dg" title="My msgInfo" class="easyui-datagrid" style="width:700px;height:250px"
-            url="../ShowMsgDate/showMsgByConditional.do"
+             url="../ShowMsgDate/showMsgByConditional.do"
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true" >
         <thead>
@@ -199,11 +199,6 @@
 				}
 			});
 		}
-		$('.datagrid-pager').pagination('refresh',{	// 改变选项并刷新分页栏信息
-			total: 1,
-			pageNumber: 10
-		});
-// 		$('.datagrid-pager').click(re());
 	</script>
 </body>
 </html>

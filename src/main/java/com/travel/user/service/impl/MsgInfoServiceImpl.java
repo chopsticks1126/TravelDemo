@@ -1,6 +1,7 @@
 
 package com.travel.user.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.travel.user.Util.WHTools;
 import com.travel.user.dao.MsgInfoDao;
 import com.travel.user.entity.MsgInfo;
 import com.travel.user.entity.MsgInfoModel;
@@ -24,14 +26,15 @@ import net.sf.json.JSONObject;
 public class MsgInfoServiceImpl implements MsgInfoService {
 	@Autowired
 	private MsgInfoDao<MsgInfo> msgdao;
-	JSONObject jsonObject =new JSONObject();
+	private WHTools whtools = new WHTools();
+	private JSONObject jsonObject =new JSONObject();
 	
 	public List<MsgInfo> selectAll(){
 		List<MsgInfo> msgInfoListByPage =msgdao.queryAll();
 		return msgInfoListByPage;
 	}
 	/**
-	 * 分页查询所有的(暂且没有用到)
+	 * 分页查询所有的(暂且没有用到)  做了数据缓存，然后分页显示数据
 	 * @param page	
 	 * @param rows	
 	 * @return		
@@ -39,11 +42,20 @@ public class MsgInfoServiceImpl implements MsgInfoService {
 	public Map<String, Object> selectByPage(String page,String rows){
 		
 		Map<String, Object> map =byPage(page, rows);//分页查询封装的参数
-		List<MsgInfo> msgInfoListByPage =msgdao.queryAll();
-		int total = queryCount();// 
+		List<MsgInfo> showDataList = new ArrayList<MsgInfo>();
+		List<MsgInfo> comfigList =whtools.getMapConfig();
+		int total = comfigList.size();//所有数据的总数
+		int start = (Integer) map.get("page");//起始i
+		int num = (Integer)map.get("page")+(Integer)map.get("rows");//根据每次的条数，最后该截至的数
+		int end = num>total?total:num; //结束i
+		if (comfigList != null && comfigList.size() > 0) {
+			for (int i = start; i < end; i++) {
+				showDataList.add(comfigList.get(i));
+			}
+		}
 		Map<String, Object> mapObject = new HashMap<String, Object>();//
-		mapObject.put("rows", msgInfoListByPage);
-		mapObject.put("total", total);
+		mapObject.put("rows", showDataList);
+		mapObject.put("total", comfigList.size());
 		return mapObject;
 	}
 	/**
