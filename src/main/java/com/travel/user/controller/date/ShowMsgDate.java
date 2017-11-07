@@ -42,7 +42,7 @@ public class ShowMsgDate {
 	}
 	*/
 	/**
-	 * 查询所有（暂且没有用）
+	 * 查询所有（暂且没有用）（20171107学打tag）
 	 * @param request
 	 * @param response
 	 * @return
