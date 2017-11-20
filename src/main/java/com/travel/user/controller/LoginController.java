@@ -37,5 +37,12 @@ public String welcomeJsp( Model model){
 	return "/welcome/index";
 	
 }
+
+@RequestMapping("/commentJsp.do") //url
+//url=http://localhost:8080/TravelDemo/loginController/commentJsp.do
+public String commentJsp( Model model){
+	return "/welcome/comment";
+	
+}
 }
 

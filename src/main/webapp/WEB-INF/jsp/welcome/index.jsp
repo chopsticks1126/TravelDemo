@@ -14,6 +14,14 @@
 <!-- 引入相关的icon文件 -->
 <link rel="stylesheet" href="../jslib/jquery-easyui-1.5.3/themes/icon.css" type="text/css"></link>
 <title>Welcome Travel</title>
+<style type="text/css">
+.review_area {
+	border: 2px solid #BFEFFF;
+	width: 700px;
+	height: 300px;
+	margin-top: 10px;
+}
+</style>
 </head>
 <body>
     <table id="dg" title="My msgInfo" class="easyui-datagrid" style="width:700px;height:250px"
@@ -60,6 +68,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Save</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancel</a>
     </div>
+    <%@ include file="comment.jsp" %>
 <!-- 	<!-- 拖动 --> 
 <!-- 	<div id="dd" class="easyui-draggable" data-options="handle:'#title'"  -->
 <!-- 		style="width: 100px; height: 100px;"disable ="true"> -->
