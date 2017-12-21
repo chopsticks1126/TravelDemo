@@ -4,14 +4,22 @@
     <resultMap id="BaseResultMap" type="com.travel.user.entity.User">  
         <result column="username" property="username" />  
         <result column="password" property="password" />  
+         <result column="id" property="id" />  
+        <result column="daytime" property="daytime" />  
+        <result column="isdelete" property="isdelete" />  
     </resultMap>  
   <sql id="Base_Column_List" >  
-    username, password  
+   id, username, password  
   </sql>  
   <select id="selectId" resultMap="BaseResultMap" parameterType="java.lang.String" >  
     select   
     <include refid="Base_Column_List" />  
     from user  
     where username = #{username,jdbcType=VARCHAR}  
-  </select>  
+  </select> 
+  <select id ="selectAllUser" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" />
+	from user 
+  </select> 
 </mapper> 

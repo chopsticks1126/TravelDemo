@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
 <mapper namespace="com.travel.user.dao.MsgInfoDao">
-	<resultMap id="BaseResultMap" type="com.travel.user.entity.MsgInfo">
+	<resultMap id="msyInfo" type="com.travel.user.entity.MsgInfo">
 		<result column="name" property="name" />
 		<result column="phone" property="phone" />
 		<result column="email" property="email" />
 		<result column="id" property="id" />
 	</resultMap>
-	<sql id="Base_Column_List">
-		name, phone, email
-	</sql>
 	<!-- where 条件查询 -->
 	<sql id="common_where_conditions">
 		<where>

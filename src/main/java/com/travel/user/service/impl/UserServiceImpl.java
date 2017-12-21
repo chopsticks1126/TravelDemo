@@ -12,13 +12,13 @@ import com.travel.user.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDao<User> userdao;
-	public boolean doUserLogin(User user) {
-		boolean flag =false;
+	public List<User> doUserLogin(User user) {
 		List<User> users =userdao.selectId(user.getUsername());
-		if(users.get(0).getPassword().equals(user.getPassword())){
-			flag =true;
-		}
-		return flag;
+		return  users;
+	}
+	public List<User> selectAllUser() {
+		List<User> users =userdao.selectAllUser();
+		return users;
 	}
 
 }

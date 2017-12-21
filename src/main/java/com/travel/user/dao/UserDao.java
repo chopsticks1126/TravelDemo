@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao<User>{
 	List<User> selectId(String username);
+	List<User> selectAllUser();
 }

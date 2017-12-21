@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>基本地图展示</title>
+    <link rel="stylesheet" href="../css/map.css"/>
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.4.1&key=a8961c47efea97510405430749cb0f29"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script type="text/javascript" src="../jslib/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div id="container" class="container"><input type="hidden" value="222" id="map"/></div>
+<!-- <script type="text/javascript" src="../js/map.js"></script> -->
+<script type="text/javascript">
+var map = new AMap.Map('container', {
+    resizeEnable: true,
+    center: [108.88, 34.34],
+    zoom: 5
+});
+//数据
+var data_info =[{x:104.06,y:30.57,city:'cd'},
+                {x:114.27,y:30.58,city:'wh'},
+                {x:108.88,y:34.34,city:'xa'},
+                {x:114.49,y:38.01,city:'sjz'},
+                {x:116.40,y:39.91,city:'bj'}];
+
+var lineArr=[];
+for(var i=0;i<data_info.length;i++){
+	var point = new AMap.LngLat(data_info[i].x,data_info[i].y);
+	lineArr.push(point);
+	}
+//画折线
+ var polyline = new AMap.Polyline({
+        path: lineArr,          //设置线覆盖物路径
+        strokeColor: "#3366FF", //线颜色
+        strokeOpacity: 1,       //线透明度
+        strokeWeight: 6,        //线宽
+        strokeStyle: "solid",   //线样式
+        strokeDasharray: [10, 6], //补充线样式
+ 		showDir: true//显示线上的箭头
+    });
+    polyline.setMap(map);
+    
+//     var data_info1 =[{x:104.06,y:30.57,city:'cd'},
+//                      {x:108.88,y:34.34,city:'xa'}]
+//     var lineArr1=[];
+//     for(var i=0;i<data_info1.length;i++){
+//     	var point1 = new AMap.LngLat(data_info1[i].x,data_info1[i].y);
+//     	lineArr1.push(point1);
+//     	}
+//     //画折线
+//      var polyline1 = new AMap.Polyline({
+//             path: lineArr1,          //设置线覆盖物路径
+//             strokeColor: "#3366FF", //线颜色
+//             strokeOpacity: 1,       //线透明度
+//             strokeWeight: 6,        //线宽
+//             strokeStyle: "solid",   //线样式
+//             strokeDasharray: [10, 6], //补充线样式
+//      		showDir: true//显示线上的箭头
+//         });
+//         polyline1.setMap(map);
+//     var  polygon = new AMap.Polygon({
+//         path: lineArr,//设置多边形边界路径
+//         strokeColor: "#FF33FF", //线颜色
+//         strokeOpacity: 0.2, //线透明度
+//         strokeWeight: 3,    //线宽
+//         fillColor: "#1791fc", //填充色
+//         fillOpacity: 0.35//填充透明度
+//     });
+//     polygon.setMap(map);
+    
+    
+  var infoWindow = new AMap.InfoWindow({
+    isCustom: true,  //使用自定义窗体
+    offset: new AMap.Pixel(16, -45)
+});
+
+// 在地图上添加i个点标记，作为参照
+for (var i = 0; i < data_info.length; i++) {
+		var point = new AMap.LngLat(data_info[i].x, data_info[i].y);
+		var image = '../img/mapimg/' + data_info[i].city + '.png';
+		var marker = new AMap.Marker({
+			map : map,
+			icon : image,
+			position : point,
+			offset : new AMap.Pixel(-12, -36)
+		//draggable:true, //是否可拖动
+		});
+		var title = '设备信息<span style="font-size:11px;color:#000000;"></span>';
+		content = [];
+		content.push("<span style='font-size:11px;color:#000000;'>地址：成都市高新区软件园G5</span>");
+		content.push("<span style='font-size:11px;color:#000000;'>电话：010-64733333</span>");
+		marker.content = createInfoWindow(title, content);
+		marker.on('click', markerClick);  //左键点击 markerClick 方法名
+		marker.on('rightclick', rightclick);//右键点击
+		marker.emit('click', {target : marker});
+		if(i==data_info.length-1){	
+			console.log(i+"关闭最后一个窗口");
+			closeInfoWindow();
+		}
+}
+
+function markerClick(e) {
+	infoWindow.setContent(e.target.content);
+	infoWindow.open(map, e.target.getPosition());
+}
+
+//右键窗体
+var contextMenu = new AMap.ContextMenu();  //创建右键
+contextMenu.addItem("放大一级", function() {
+//     alert("点击了放大一级");
+	 	map.zoomIn();
+}, 0);
+//右键缩小
+contextMenu.addItem("缩小一级", function() {
+// 	alert("点击了缩小一级");
+	 map.zoomOut();
+}, 1);
+function rightclick(e){
+	contextMenu.open(map, e.lnglat);//打开右键窗体
+}
+
+map.setFitView();
+
+//构建自定义信息窗体
+function createInfoWindow(title, content) {
+	var info = document.createElement("div");
+	info.className = "info";
+
+	//可以通过下面的方式修改自定义窗体的宽高
+	// 定义顶部标题
+	var top = document.createElement("div");
+	var titleD = document.createElement("div");
+	var closeX = document.createElement("img");
+	top.className = "info-top";
+	titleD.innerHTML = title;
+	closeX.src = "../img/close.png";
+	closeX.onclick = closeInfoWindow;
+
+	top.appendChild(titleD);
+	top.appendChild(closeX);
+	info.appendChild(top);
+
+	// 定义中部内容
+	var middle = document.createElement("div");
+	middle.className = "info-middle";
+	middle.style.backgroundColor = 'white';
+	middle.innerHTML = content;
+	info.appendChild(middle);
+
+	// 定义底部内容
+	var bottom = document.createElement("div");
+	bottom.className = "info-bottom";
+	bottom.style.position = 'relative';
+	bottom.style.top = '0px';
+	bottom.style.margin = '0 auto';
+	var sharp = document.createElement("img");
+	sharp.src = "../img/sharp.png";
+	bottom.appendChild(sharp);
+	info.appendChild(bottom);
+	return info;
+}
+
+function createInfoWindow2(title, content) {
+	$(".amap-info").append("<div class =\"info-middle\">111111</div>");
+}
+
+//关闭信息窗体
+function closeInfoWindow() {
+	map.clearInfoWindow();
+}
+// // 添加事件监听, 使地图自适应显示到合适的范围
+// AMap.event.addDomListener(document.getElementById('setFitView'), 'click', function() {
+//  var newCenter = map.setFitView();
+//  document.getElementById('centerCoord').innerHTML = '当前中心点坐标：' + newCenter.getCenter();
+//  document.getElementById('tips').innerHTML = '通过setFitView，地图自适应显示到合适的范围内,点标记已全部显示在视野中！';
+// });
+
+
+
+</script>
+<script type="text/javascript">
+//js获取项目根路径，如： http://localhost:8083/uimcardprj
+function getRootPath(){
+    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath=window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht=curWwwPath.substring(0,pos);
+    //获取带"/"的项目名，如：/uimcardprj
+    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+    console.log(localhostPaht+projectName);
+    return(localhostPaht+projectName);
+}
+</script>
+
+</body>
+</html>
