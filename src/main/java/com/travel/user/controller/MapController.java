@@ -78,8 +78,8 @@ public class MapController {
             dataInfo.setPasscityName_zh(getPinYinHeadChar(PassCityName));
             dataInfo.setPassx_axis(Double.parseDouble(PassX_axis));
             dataInfo.setPassy_axis(Double.parseDouble(PassY_axis));
-            dataInfo.setStart_deviceInfo("璧峰绔欑偣");
-            dataInfo.setPass_deviveInfo("閫斿緞绔欑偣");
+            dataInfo.setStart_deviceInfo("起始站点信息");
+            dataInfo.setPass_deviveInfo("途径站点信息");
 
             dataInfoService.addDataInfo(dataInfo);
             jsonObject.put("message", "成功");
